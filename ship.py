@@ -1,5 +1,6 @@
 import pygame
 
+
 class Ship():
     def __init__(self, ai_game):
         # Инициализирует корабль и задает его начальную позицию
@@ -8,10 +9,11 @@ class Ship():
         self.settings = ai_game.settings
 
         # Загружает изображение корабля и получает прямоугольник
-        self.images = pygame.image.load('images/ships5.png')
+        self.images = pygame.image.load('images/ships5_2.png')
         self.anim = []
         self.fill_anim()
-        self.current_img = 0
+        print(self.anim)
+        self.current_img = 4
         self.rect = self.anim[self.current_img].get_rect()
 
         # Каждый новый корабль появляется у края экрана
@@ -23,16 +25,22 @@ class Ship():
 
 
     def fill_anim(self):
-        for i in range(0, 4):
-            sub_s = self.images.subsurface(pygame.Rect(0, 0, 152, 207))
-            sub_s = pygame.transform.smoothscale(sub_s, (100, 130))
-            self.anim.append(sub_s)
+        #for i in range(1, 5):
+         #   sub_s = self.images.subsurface(pygame.Rect(152 * (i - 1), 0, 150, 207))
+            # sub_s = pygame.transform.smoothscale(sub_s, (100, 130))
+          #  self.anim.append(sub_s)
+
+        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 0, 0, 150, 207)), (100, 130)))
+        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 1, 0, 150, 207)), (100, 130)))
+        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 2, 0, 150, 207)), (100, 130)))
+        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 3, 0, 150, 207)), (100, 130)))
+        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 4, 0, 150, 207)), (100, 130)))
 
     def update_image(self):
-        if self.current_img > 4:
+        if self.current_img < 4:
+            self.current_img += 1
+        else:
             self.current_img = 0
-        self.current_img += 1
-
 
     def update(self):
         if self.moving_right and self.rect.right < self.screen_rect.right:
@@ -44,6 +52,12 @@ class Ship():
 
     def blitime(self):
         # Рисует корабль в текущей позиции
+        self.update_image()
         self.screen.blit(self.anim[self.current_img], self.rect)
+
+
+
+
+
 
 
