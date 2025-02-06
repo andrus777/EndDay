@@ -6,3 +6,9 @@ class Settings():
         self.game_caption = "Alien Invasion"
 
         self.ship_speed = 1.5
+
+        self.bullet_speed = 1
+        self.bullet_width = 4
+        self.bullet_height = 15
+        self.bullet_color = 255, 255, 102
+        self.bullets_allowed = 3

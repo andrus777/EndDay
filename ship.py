@@ -1,6 +1,5 @@
 import pygame
 
-
 class Ship():
     def __init__(self, ai_game):
         # Инициализирует корабль и задает его начальную позицию
@@ -12,7 +11,7 @@ class Ship():
         self.images = pygame.image.load('images/ships5_2.png')
         self.anim = []
         self.fill_anim()
-        print(self.anim)
+        # print(self.anim)
         self.current_img = 4
         self.rect = self.anim[self.current_img].get_rect()
 
@@ -25,16 +24,9 @@ class Ship():
 
 
     def fill_anim(self):
-        #for i in range(1, 5):
-         #   sub_s = self.images.subsurface(pygame.Rect(152 * (i - 1), 0, 150, 207))
-            # sub_s = pygame.transform.smoothscale(sub_s, (100, 130))
-          #  self.anim.append(sub_s)
+        for i in range(5):
+            self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * i , 0, 150, 207)), (100, 130)))
 
-        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 0, 0, 150, 207)), (100, 130)))
-        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 1, 0, 150, 207)), (100, 130)))
-        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 2, 0, 150, 207)), (100, 130)))
-        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 3, 0, 150, 207)), (100, 130)))
-        self.anim.append(pygame.transform.smoothscale(self.images.subsurface(pygame.Rect(152 * 4, 0, 150, 207)), (100, 130)))
 
     def update_image(self):
         if self.current_img < 4:
