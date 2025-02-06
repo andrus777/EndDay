@@ -3,6 +3,10 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
+from star import Star
+import random
+
 
 
 class AlienInvasion:
@@ -17,11 +21,49 @@ class AlienInvasion:
         self.bg_color = self.settings.bg_color
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+        self.star_sky = pygame.sprite.Group()
+
+        self._create_star_sky()
+        self._create_fleet()
+
+
+    def _create_fleet(self):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        available_spase_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_spase_x // (2 * alien_width)
+
+        ship_height = self.ship.rect.height
+        available_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height)
+        number_rows = available_space_y // (2 * alien_height)
+
+        for row_number in range(number_rows):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(alien_number, row_number)
+
+    def _create_alien(self, alien_number, row_number):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        self.aliens.add(alien)
+
+    def _create_star_sky(self):
+        for i in range(self.settings.max_stars):
+            star = Star(self)
+            star_width, star_height = star.rect.size
+            star.rect.x = random.randint(0, self.settings.screen_width - star_width)
+            star.rect.y = random.randint(0, self.settings.screen_height - star_height)
+            self.star_sky.add(star)
+
 
     def run_game(self):
         while True:
             self._check_events()
             self.ship.update()
+            #self._update_star_sky()
             self._update_bullets()
             self._update_screen()
 
@@ -69,12 +111,24 @@ class AlienInvasion:
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
+        self.star_sky.draw(self.screen)
         self.ship.blitime()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
+
         pygame.display.flip()
 
-
+    def _update_star_sky(self):
+        self.star_sky.update()
+        for star in self.star_sky.copy():
+            if star.rect.top > self.settings.screen_height:
+                self.star_sky.remove(star)
+                #star = Star(self)
+                #star_width, star_height = star.rect.size
+                #star.rect.x = random.randint(0, self.settings.screen_width - star_width)
+                #star.rect.y = random.randint(-5, 0)
+                #self.star_sky.add(star)
 
 
 if __name__ == '__main__':
