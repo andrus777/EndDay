@@ -6,6 +6,7 @@ class Settings():
         self.game_caption = "Alien Invasion"
 
         self.ship_speed = 1.5
+        self.ship_flame = 0.2
 
         self.bullet_speed = 1
         self.bullet_width = 4
@@ -15,3 +16,9 @@ class Settings():
 
         self.max_stars = 400
         self.star_speed = 2
+
+        self.alien_speed = 1.0
+        self.fleet_drop_speed = 10
+        self.fleet_direction = 1
+
+
